@@ -4,8 +4,10 @@ module.exports = {
     async getThoughts(req, res) {
         try {
             const thoughts = await Thought.find();
+            console.log(thoughts);
             res.json(thoughts);
         } catch (err) {
+            console.log(err);
             res.status(500).json(err);
         }
     },
@@ -18,6 +20,7 @@ module.exports = {
                 return res.status(404).json({ message: 'No thought with that ID' });
             }
 
+            console.log(thought);
             res.json(thought);
         } catch (err) {
             res.status(500).json(err);
@@ -37,7 +40,7 @@ module.exports = {
                 return res.status(404).json({ message: 'No user with that ID' });
             };
 
-            res.json(thought, user);
+            res.json(thought);
         } catch (err) {
             res.status(500).json(err);
         }
@@ -74,4 +77,40 @@ module.exports = {
             res.status(500).json(err);
         }
     },
+
+    async addReaction(req, res) {
+        try {
+            const thought = await Thought.findOneAndUpdate(
+                { _id: req.params.thoughtId },
+                { $push: { reactions: req.body } },
+                { new: true, runValidators: true }
+            );
+
+            if (!thought) {
+                return res.status(404).json({ message: 'No thought with that ID' });
+            }
+
+            res.json(thought);
+        } catch (err) {
+            res.status(500).json(err);
+        }
+    },
+
+    async deleteReaction(req, res) {
+        try {
+            const thought = await Thought.findOneAndUpdate(
+                { _id: req.params.thoughtId },
+                { $pull: { reactions: { reactionId: req.params.reactionId } } },
+                { new: true, runValidators: true }
+            );
+
+            if (!thought) {
+                return res.status(404).json({ message: 'No thought with that ID' });
+            }
+
+            res.json(thought);
+        } catch (err) {
+            res.status(500).json(err);
+        }
+    }
 };
