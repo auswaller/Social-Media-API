@@ -4,10 +4,8 @@ module.exports = {
     async getThoughts(req, res) {
         try {
             const thoughts = await Thought.find();
-            console.log(thoughts);
             res.json(thoughts);
         } catch (err) {
-            console.log(err);
             res.status(500).json(err);
         }
     },
@@ -20,7 +18,6 @@ module.exports = {
                 return res.status(404).json({ message: 'No thought with that ID' });
             }
 
-            console.log(thought);
             res.json(thought);
         } catch (err) {
             res.status(500).json(err);
@@ -100,7 +97,7 @@ module.exports = {
         try {
             const thought = await Thought.findOneAndUpdate(
                 { _id: req.params.thoughtId },
-                { $pull: { reactions: { reactionId: req.params.reactionId } } },
+                { $pull: { reactions: req.body } },
                 { new: true, runValidators: true }
             );
 
