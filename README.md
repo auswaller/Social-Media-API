@@ -15,4 +15,4 @@ GitHub Repo:
 https://github.com/auswaller/Social-Media-API
 
 Video Walkthrough:
-https://drive.google.com/file/d/1nWyIvexU2nYib8_mgYWqjzBdJdsl8A-p/view
+https://drive.google.com/file/d/1p1A7OHQBT5tuglVzO6FVDG-CQSaWGCKm/view
